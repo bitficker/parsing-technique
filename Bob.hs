@@ -12,9 +12,9 @@ responseFor said = reaction
         getAction :: String -> Action
         getAction [] = Silence
         getAction (x : xs)
+            | ord x == 32 = silence xs
             | isUppercase x = yelling xs
             | isSpecialSymbolOrNumber x = specialSymbol xs
-            | ord x == 20 = silence xs
             | otherwise = anythingElse xs
 
         action = getAction said
@@ -41,7 +41,7 @@ anythingElse (x : xs) = anythingElse xs
 silence :: String -> Action -- Silence | AnythingElse
 silence [] = Silence
 silence (x : xs)
-    | ord x == 20 = silence xs
+    | ord x == 32 = silence xs
     | isSpecialSymbolOrNumber x = specialSymbol xs
     | isUppercase x = yelling xs
 --silence (x : xs) = if ord x == 20 then silence xs else anythingElse xs
